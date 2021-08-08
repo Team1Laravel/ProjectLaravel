@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\DB;
 use App\Models\MovieGenre;
 use App\Models\Movie;
 
-$movies = Movie::all();
+$movies = Movie::all()->where('premiere', '=', 1);
 $movies_genres = MovieGenre::all();
 
 ?>
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1 class="home__title"><b>NEW ITEMS</b> OF THIS SEASON</h1>
+            <h1 class="home__title"><b>NEW MOVIES</b> OF THIS SEASON</h1>
 
             <button class="home__nav home__nav--prev" type="button">
                 <i class="icon ion-ios-arrow-round-back"></i>
@@ -28,7 +28,7 @@ $movies_genres = MovieGenre::all();
                         <!-- card -->
                         <div class="card card--big">
                             <div class="card__cover">
-                                <img src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
+                                <img style="max-height: 340px" src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                 <a href="{{ url('/detail') }}/{{ $movie->id }}" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>

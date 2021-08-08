@@ -30,7 +30,7 @@ use App\Models\Genre;
                 <div class="row">
                     <div class="col-12">
                         <!-- content title -->
-                        <h2 class="content__title">New items</h2>
+                        <h2 class="content__title">ALL GENRES</h2>
                         <!-- end content title -->
 
                         <!-- content tabs nav -->
@@ -96,56 +96,63 @@ use App\Models\Genre;
                                 $genres_movies = GenresMovies::all()->where('id', '=', $genre->id);
                                 ?>
                                 @foreach ($genres_movies as $item)
-                                    <div class="col-6 col-sm-12 col-lg-6">
-                                        <div class="card card--list">
-                                            <div class="row">
-                                                <?php
-                                                $movie = Movie::all()->find($item->movie_id);
-                                                ?>
-                                                <div class="col-12 col-sm-4">
-                                                    <div class="card__cover">
-                                                        <img src="{{ asset('img/catalogs/') }}/{{ $movie->image }}"
-                                                            alt="">
-                                                        <a href="{{ $movie->video_link }}" class="card__play">
-                                                            <i class="icon ion-ios-play"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-12 col-sm-8">
-                                                    <div class="card__content">
-                                                        <h3 class="card__title"><a
-                                                                href="{{ url('/detail') }}">{{ $movie->name }}</a>
-                                                        </h3>
-                                                        <span class="card__category">
-                                                            <?php
-                                                            $genres_by_movie = DB::select("select * from genres_movies where movie_id = $movie->id");
-                                                            foreach ($genres_by_movie as $key => $value) {
-                                                                $url = '/home/genre/' . $value->name;
-                                                                echo "<a href='" . $url . "'>" . $value->name . '</a>';
-                                                            }
-                                                            ?>
-                                                        </span>
-
-                                                        <div class="card__wrap">
-                                                            <span class="card__rate"><i
-                                                                    class="icon ion-ios-star"></i>8.4</span>
-
-                                                            <ul class="card__list">
-                                                                <li>{{ $movie->quality }}</li>
-                                                                <li>{{ $movie->age_limit }}+</li>
-                                                            </ul>
-                                                        </div>
-
-                                                        <div class="card__description">
-                                                            <p>{{ $movie->desc }}</p>
+                                    <?php
+                                    $movie = DB::select('select * from movies where premiere = 1 and id = ' . $item->movie_id);
+                                    if (count($movie) > 0) {
+                                        $movie = $movie[0];
+                                    }
+                                    ?>
+                                    @if ($movie != null)
+                                        <div class="col-6 col-sm-12 col-lg-6">
+                                            <div class="card card--list">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-4">
+                                                        <div class="card__cover">
+                                                            <img style="max-height: 210px"
+                                                                src="{{ asset('img/catalogs/') }}/{{ $movie->image }}"
+                                                                alt="">
+                                                            <a href="{{ $movie->video_link }}" class="card__play">
+                                                                <i class="icon ion-ios-play"></i>
+                                                            </a>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-12 col-sm-8">
+                                                        <div class="card__content">
+                                                            <h3 class="card__title"><a
+                                                                    href="{{ url('/detail') }}">{{ $movie->name }}</a>
+                                                            </h3>
+                                                            <span class="card__category">
+                                                                <?php
+                                                                $genres_by_movie = DB::select("select * from genres_movies where movie_id = $movie->id");
+                                                                foreach ($genres_by_movie as $key => $value) {
+                                                                    $url = '/home/genre/' . $value->name;
+                                                                    echo "<a href='" . $url . "'>" . $value->name . '</a>';
+                                                                }
+                                                                ?>
+                                                            </span>
+
+                                                            <div class="card__wrap">
+                                                                <span class="card__rate"><i
+                                                                        class="icon ion-ios-star"></i>8.4</span>
+
+                                                                <ul class="card__list">
+                                                                    <li>{{ $movie->quality }}</li>
+                                                                    <li>{{ $movie->age_limit }}+</li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="card__description">
+                                                                <p>{{ $movie->desc }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
+
                                             </div>
-
                                         </div>
-                                    </div>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -153,7 +160,6 @@ use App\Models\Genre;
                         <div class="tab-pane fade fade" id="tab-{{ $genre->id }}" role="tabpanel"
                             aria-labelledby="{{ $genre->id }}-tab">
                             <div class="row">
-                                <!-- card -->
                                 <?php
                                 $genres_movies = GenresMovies::all()->where('id', '=', $genre->id);
                                 ?>
@@ -214,940 +220,93 @@ use App\Models\Genre;
                         </div>
                     @endif
                 @endforeach
-                {{-- <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-                    <div class="row">
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                </div> --}}
-
-                {{-- <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
-                    <div class="row">
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                </div> --}}
-
-                {{-- <div class="tab-pane fade" id="tab-4" role="tabpanel" aria-labelledby="4-tab">
-                    <div class="row">
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover6.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover5.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover4.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
-                                            Language</a>
-                                    </h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Action</a>
-                                        <a href="{{ url('/detail') }}">Triler</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover3.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover2.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Romance</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                        <a href="{{ url('/detail') }}">Music</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-
-                        <!-- card -->
-                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                            <div class="card">
-                                <div class="card__cover">
-                                    <img src="img/covers/cover.jpg" alt="">
-                                    <a href="{{ url('/detail') }}" class="card__play">
-                                        <i class="icon ion-ios-play"></i>
-                                    </a>
-                                </div>
-                                <div class="card__content">
-                                    <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                                    <span class="card__category">
-                                        <a href="{{ url('/detail') }}">Comedy</a>
-                                        <a href="{{ url('/detail') }}">Drama</a>
-                                    </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- end card -->
-                    </div>
-                </div> --}}
             </div>
-            <!-- end content tabs -->
         </div>
     </section>
-    <!-- end content -->
 
-    <!-- expected premiere -->
     <section class="section section--bg" data-bg="img/section/section.jpg">
         <div class="container">
-            <div class="row">
-                <!-- section title -->
-                <div class="col-12">
-                    <h2 class="section__title">Expected premiere</h2>
-                </div>
-                <!-- end section title -->
+            <?php
+            $movies_hd = DB::select("select * from movies where quality = '1080p' and premiere = 1");
+            ?>
+            @if ($movies_hd != null)
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section__title">FULL HD MOVIES</h2>
+                    </div>
+                    @for ($i = 0; $i < 6; $i++)
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <div class="card">
+                                <div class="card__cover">
+                                    <img style="max-height: 200px"
+                                        src="{{ asset('img/catalogs/') }}/{{ $movies_hd[$i]->image }}" alt="">
+                                    <a href="{{ url('/detail') }}" class="card__play">
+                                        <i class="icon ion-ios-play"></i>
+                                    </a>
+                                </div>
+                                <div class="card__content">
+                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
+                                            Language</a>
+                                    </h3>
+                                    <span class="card__category">
+                                        <?php
+                                        $genres_by_movie = DB::select('select * from genres_movies where movie_id = ' . $movies_hd[$i]->id);
+                                        foreach ($genres_by_movie as $key => $value) {
+                                            $url = '/home/genre/' . $value->name;
+                                            echo "<a href='" . $url . "'>" . $value->name . '</a>';
+                                        }
+                                        ?>
+                                    </span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endfor
+                    <!-- section btn -->
+                    
 
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="img/covers/cover.jpg" alt="">
-                            <a href="{{ url('/detail') }}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
+                    <!-- end section btn -->
+                </div>
+                <div class="row collapse" id="demo">
+
+                    @for ($i = 6; $i < count($movies_hd); $i++)
+                        <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
+                            <div class="card">
+                                <div class="card__cover">
+                                    <img style="max-height: 200px"
+                                        src="{{ asset('img/catalogs/') }}/{{ $movies_hd[$i]->image }}" alt="">
+                                    <a href="{{ url('/detail') }}" class="card__play">
+                                        <i class="icon ion-ios-play"></i>
+                                    </a>
+                                </div>
+                                <div class="card__content">
+                                    <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another
+                                            Language</a>
+                                    </h3>
+                                    <span class="card__category">
+                                        <?php
+                                        $genres_by_movie = DB::select('select * from genres_movies where movie_id = ' . $movies_hd[$i]->id);
+                                        foreach ($genres_by_movie as $key => $value) {
+                                            $url = '/home/genre/' . $value->name;
+                                            echo "<a href='" . $url . "'>" . $value->name . '</a>';
+                                        }
+                                        ?>
+                                    </span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another Language</a></h3>
-                            <span class="card__category">
-                                <a href="{{ url('/detail') }}">Action</a>
-                                <a href="{{ url('/detail') }}">Triler</a>
-                            </span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                        </div>
+                    @endfor
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button data-toggle="collapse" data-target="#demo" class="section__btn">Show more</button>
                     </div>
                 </div>
-                <!-- end card -->
-
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="img/covers/cover3.jpg" alt="">
-                            <a href="{{ url('/detail') }}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                            <span class="card__category">
-                                <a href="{{ url('/detail') }}">Comedy</a>
-                            </span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
-
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="img/covers/cover2.jpg" alt="">
-                            <a href="{{ url('/detail') }}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="{{ url('/detail') }}">Whitney</a></h3>
-                            <span class="card__category">
-                                <a href="{{ url('/detail') }}">Romance</a>
-                                <a href="{{ url('/detail') }}">Drama</a>
-                                <a href="{{ url('/detail') }}">Music</a>
-                            </span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
-
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="img/covers/cover6.jpg" alt="">
-                            <a href="{{ url('/detail') }}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="{{ url('/detail') }}">Blindspotting</a></h3>
-                            <span class="card__category">
-                                <a href="{{ url('/detail') }}">Comedy</a>
-                                <a href="{{ url('/detail') }}">Drama</a>
-                            </span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
-
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="img/covers/cover4.jpg" alt="">
-                            <a href="{{ url('/detail') }}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="{{ url('/detail') }}">I Dream in Another Language</a></h3>
-                            <span class="card__category">
-                                <a href="{{ url('/detail') }}">Action</a>
-                                <a href="{{ url('/detail') }}">Triler</a>
-                            </span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
-
-                <!-- card -->
-                <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-                    <div class="card">
-                        <div class="card__cover">
-                            <img src="img/covers/cover5.jpg" alt="">
-                            <a href="{{ url('/detail') }}" class="card__play">
-                                <i class="icon ion-ios-play"></i>
-                            </a>
-                        </div>
-                        <div class="card__content">
-                            <h3 class="card__title"><a href="{{ url('/detail') }}">Benched</a></h3>
-                            <span class="card__category">
-                                <a href="{{ url('/detail') }}">Comedy</a>
-                            </span>
-                            <span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
-
-                <!-- section btn -->
-                <div class="col-12">
-                    <a href="{{ url('/detail') }}" class="section__btn">Show more</a>
-                </div>
-                <!-- end section btn -->
-            </div>
+            @endif
         </div>
     </section>
+
     <!-- end expected premiere -->
 
     <!-- partners -->

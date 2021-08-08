@@ -14,7 +14,7 @@
                     <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                         <div class="card">
                             <div class="card__cover">
-                                <img src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
+                                <img style="max-height: 200px" src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                 <a href="#" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>

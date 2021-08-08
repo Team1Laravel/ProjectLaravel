@@ -197,13 +197,6 @@
                         </a>
                      </li>
                      <li class="nav-item">
-                        <a href="pages/charts/chartjs.html" class="nav-link">
-                        <i class="mdi mdi-finance menu-icon"></i>
-                        <span class="menu-title">Charts</span>
-                        <i class="menu-arrow"></i>
-                        </a>
-                     </li>
-                     <li class="nav-item">
                         <a href="pages/icons/mdi.html" class="nav-link">
                         <i class="mdi mdi-emoticon menu-icon"></i>
                         <span class="menu-title">Icons</span>
@@ -239,7 +232,7 @@
          <!-- partial -->
          <div class="container-fluid page-body-wrapper">
             <div class="main-panel">
-               <div id="mainData" style="overflow: auto; max-height: 500px">
+               <div id="mainData">
                   @include("admin.chart")
                </div>
                

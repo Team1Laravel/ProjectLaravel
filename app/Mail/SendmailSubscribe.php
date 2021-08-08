@@ -52,9 +52,8 @@ class SendmailSubscribe extends Mailable
     */
     
     public function build()
-    
     {        
-        return $this->view('mailsubcribe');
+        return $this->from('xuanphuchb95@gmail.com')->view('mailsubcribe');
         
     }
 }

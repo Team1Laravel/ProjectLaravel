@@ -33,7 +33,6 @@ class MovieManagementController extends Controller
         return view('admin.movies.index',compact('movies'));
     }
     
-
     /**
      * Show the form for creating a new resource.
      *
@@ -131,7 +130,7 @@ class MovieManagementController extends Controller
             ));
         }
         $validator = Validator::make($request->all(), [
-            'video_link' => ['required', 'string', 'url'],
+            'video_link' => ['required', 'string', 'url','unique:movies'],
         ]);
         if ($validator->fails()) {
             return response()->json(array(
@@ -143,6 +142,7 @@ class MovieManagementController extends Controller
         
         $movieid = DB::table('movies')->get()->sortByDesc('id')->first()->id;//phai foreach ms an
         $genres = $request->genre_id;
+        $genres = array_unique($genres);
         foreach ($genres as $key => $value){
             DB::table('movie_genres')->insert(['movie_id' => ($movieid+1), 'genre_id' => $value]);
         }
@@ -197,8 +197,9 @@ class MovieManagementController extends Controller
     public function edit($id)
     {
         $movie = Movie::findOrFail($id);
+        $moviegenres = DB::select("select * from genres_movies where movie_id = '$id'");
         if ($movie) {
-            return response()->json(['data' => $movie, 200]);
+            return response()->json(['data' => $movie,'moviegenres'=>$moviegenres]);
         }
     }
 
@@ -244,10 +245,9 @@ class MovieManagementController extends Controller
                 ));
             }
         }
-
+        
         $movie->name = $request->name;
         $movie->image = $file_name;
-        $movie->genre_id = $request->genre_id;
         $movie->director_id = $request->director_id;
         $movie->writer_id = $request->writer_id;
         $movie->year = $request->year;
@@ -261,6 +261,12 @@ class MovieManagementController extends Controller
         $movie->ishide = $request->onoffishide;
         $movie->updated_at = Date::now();
         $movie->update();
+        MovieGenre::where('movie_id', $id)->delete();
+        $genres = $request->genre_id_u;
+        $genres = array_unique($genres);
+        foreach ($genres as $key => $value){
+            DB::table('movie_genres')->insert(['movie_id' => $id, 'genre_id' => $value]);
+        }
         return response()->json(array(
             'success' => true,
             'message' => 'Record has been updated successfully!'
