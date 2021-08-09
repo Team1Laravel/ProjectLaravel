@@ -29,7 +29,7 @@ $movies_genres = MovieGenre::all();
                         <div class="card card--big">
                             <div class="card__cover">
                                 <img style="max-height: 340px" src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
-                                <a href="{{ url('/detail') }}/{{ $movie->id }}" class="card__play">
+                                <a href="{{ url('/detail') }}/{{ $movie->name }}" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>
                             </div>

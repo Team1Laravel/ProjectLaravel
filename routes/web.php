@@ -47,9 +47,9 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/detail', function (){
-    return view('detail');
-});
+Route::get('/detail/{name}', [\App\Http\Controllers\DetailController::class, 'index']);
+Route::put('/detail/{name}', [\App\Http\Controllers\DetailController::class, 'update']);
+
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/fetch', [\App\Http\Controllers\Controller::class, 'fetch']);
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->middleware('admin')->name('admin-home');
