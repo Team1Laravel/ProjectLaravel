@@ -274,7 +274,6 @@ use App\Models\Genre;
                     @endfor
                     <!-- section btn -->
 
-
                     <!-- end section btn -->
                 </div>
                 <div class="row collapse" id="demo">
