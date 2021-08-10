@@ -1,65 +1,8 @@
-<form class="rating" method="post">
-    <div id="rating">
+<?php 
+use Illuminate\Support\Facades\DB;
 
-        <input type="radio" id="star5" name="rating" value="10" onclick="postToController()" />
-        <label class="full" for="star5" title="Awesome - 5 stars"></label>
-
-        <input type="radio" id="star4half" name="rating" value="9" onclick="postToController()" />
-        <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-
-        <input type="radio" id="star4" name="rating" value="8" onclick="postToController()" />
-        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
-
-        <input type="radio" id="star3half" name="rating" value="7" onclick="postToController()" />
-        <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-
-        <input type="radio" id="star3" name="rating" value="6" onclick="postToController()" />
-        <label class="full" for="star3" title="Meh - 3 stars"></label>
-
-        <input type="radio" id="star2half" name="rating" value="5" onclick="postToController()" />
-        <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-
-        <input type="radio" id="star2" name="rating" value="4" onclick="postToController()" />
-        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-
-        <input type="radio" id="star1half" name="rating" value="3" onclick="postToController()" />
-        <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-
-        <input type="radio" id="star1" name="rating" value="2" onclick="postToController()" />
-        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
-
-        <input type="radio" id="starhalf" name="rating" value="1" onclick="postToController()" />
-        <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-
-    </div>
-</form>
-<script>
-    function postToController() {
-        let ratingValue = 0;
-        for (i = 0; i < document.getElementsByName('rating').length; i++) {
-            if (document.getElementsByName('rating')[i].checked == true) {
-                ratingValue = document.getElementsByName('rating')[i].value;
-                alert(ratingValue);
-                break;
-            }
-        }
-        // $.ajax({
-        //     url: "{{ url('detail/') }}",
-        //     method: "POST",
-        //     data: {
-        //         _method: PUT,
-        //         _token: _token,
-        //         page: page,
-        //         table: $("#table").val(),
-        //     },
-        //     cache: false,
-        //     success: function(data) {
-        //         $("#mainData").html(data);
-        //     },
-        // });
-        // } 
-    }
-</script>
+    $star = DB::select("SELECT AVG(point) as point FROM nguoi_dung_danh_gias where movie_id ='$movie->id'")[0];
+?>
 <style>
     @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
@@ -127,3 +70,91 @@
     }
 
 </style>
+
+<form class="rating" method="post">
+    <div id="rating">
+
+        <input type="radio" id="star5" name="rating" value="10" onclick="postToController()" />
+        <label class="full" for="star5" title="Awesome - 5 stars"></label>
+
+        <input type="radio" id="star4half" name="rating" value="9" onclick="postToController()" />
+        <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+
+        <input type="radio" id="star4" name="rating" value="8" onclick="postToController()" />
+        <label class="full" for="star4" title="Pretty good - 4 stars"></label>
+
+        <input type="radio" id="star3half" name="rating" value="7" onclick="postToController()" />
+        <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+
+        <input type="radio" id="star3" name="rating" value="6" onclick="postToController()" />
+        <label class="full" for="star3" title="Meh - 3 stars"></label>
+
+        <input type="radio" id="star2half" name="rating" value="5" onclick="postToController()" />
+        <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+
+        <input type="radio" id="star2" name="rating" value="4" onclick="postToController()" />
+        <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+
+        <input type="radio" id="star1half" name="rating" value="3" onclick="postToController()" />
+        <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+
+        <input type="radio" id="star1" name="rating" value="2" onclick="postToController()" />
+        <label class="full" for="star1" title="Sucks big time - 1 star"></label>
+
+        <input type="radio" id="starhalf" name="rating" value="1"  onclick="postToController()" />
+        <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+
+    </div>
+</form>
+<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+<script>
+	function round(value){
+		let valueint = Math.round(value);
+		let check = valueint - value;
+		if(check > 0.5)
+		{
+		    return valueint - 0.5;
+		}
+		else
+		{
+			 return valueint;
+		}
+	}
+	$(document).ready(function(){
+		let star = '{{$star->point}}';
+		let point = round(Number(star));
+		 for (i = 0; i < document.getElementsByName('rating').length; i++) {
+            if (document.getElementsByName('rating')[i].value == point) {
+                document.getElementsByName('rating')[i].checked = true;
+                break;
+            }
+        }
+	});
+    function postToController() {
+        let ratingValue = 0;
+        for (i = 0; i < document.getElementsByName('rating').length; i++) {
+            if (document.getElementsByName('rating')[i].checked == true) {
+                ratingValue = document.getElementsByName('rating')[i].value;
+                post1(ratingValue);
+                break;
+            }
+        }
+        	
+    }
+    
+    function post1(ratingValue) {
+        $.ajax({
+            url: "{{route('chats.index')}}",
+            method: "post",
+            data: {
+                "_token": $("input[name='_token']").val(),
+                "_method": "post",
+                starvalue : ratingValue,
+                movie_id : {{$movie->id}},
+            },
+            success: function(result) {
+    			console.log(result);
+            }
+        });
+    }
+</script>

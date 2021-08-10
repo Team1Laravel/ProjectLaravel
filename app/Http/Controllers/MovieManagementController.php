@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Director;
@@ -29,7 +30,7 @@ class MovieManagementController extends Controller
      */
     public function index()
     {
-        $movies = ViewMovie::paginate(1);
+        $movies = ViewMovie::paginate(5);
         return view('admin.movies.index',compact('movies'));
     }
     
@@ -78,7 +79,7 @@ class MovieManagementController extends Controller
             $file = $request->file('image');
             $file_name = $file->getClientOriginalName('image');
             $file->move(public_path('img/catalogs'), $file_name);
-        } 
+        }
         $validator = Validator::make($request->all(), [
             'genre_id' => ['required'],
         ]);
@@ -139,8 +140,19 @@ class MovieManagementController extends Controller
                 
             ));
         }
+        $count = "";
         
-        $movieid = DB::table('movies')->get()->sortByDesc('id')->first()->id;//phai foreach ms an
+        $check = DB::select('select count(id) as id from movies');
+        foreach($check as $count1=>$value)
+        {
+            $count = $value;
+        }
+        if($count){
+            $movieid = 1;
+        }else{
+            $movieid = DB::table('movies')->get()->sortByDesc('id')->first()->id;//phai foreach ms an
+        }
+        
         $genres = $request->genre_id;
         $genres = array_unique($genres);
         foreach ($genres as $key => $value){
@@ -159,22 +171,24 @@ class MovieManagementController extends Controller
         $new_movie->country = $request->country;
         
         $new_movie->save();
-        $link = $request->video_link;
-        Mail::send([], [], function ($message) {
-            $UsersSubcribe = DB::table('users')->where('isSubcribe', '=', 1)->get();
-            $movie = DB::table('movies')->get()->sortByDesc('id')->first();
-            foreach ($UsersSubcribe as $user){
-                $message->to($user->email)
-                ->subject('FLEXGO')
-                ->setBody('<h1>Thanks for your subcribe!</h1><a href='.$movie->video_link.'> <img src="'
-                    . $message->embed(public_path().'/img/catalogs/'.$movie->image).'"></a> ', 'text/html');
-            }
-        });
-        return response()->json(array(
-            'success' => true,
-            'message' => 'Record has been created successfully!'
-            
-        ));
+		$jobEmail = new SendEmail($new_movie);
+        dispatch($jobEmail);
+        // $link = $request->video_link;
+        // Mail::send([], [], function ($message) {
+        //     $UsersSubcribe = DB::table('users')->where('isSubcribe', '=', 1)->get();
+        //     $movie = DB::table('movies')->get()->sortByDesc('id')->first();
+        //     foreach ($UsersSubcribe as $user){
+        //         $message->to($user->email)
+        //         ->subject('FLEXGO')
+        //         ->setBody('<h1>Thanks for your subcribe!</h1><a href='.$movie->video_link.'> <img src="'
+        //             . $message->embed(public_path().'/img/catalogs/'.$movie->image).'"></a> ', 'text/html');
+        //     }
+        // });
+            return response()->json(array(
+                'success' => true,
+                'message' => 'Record has been created successfully!'
+                
+            ));
     }
 
     /**
@@ -283,7 +297,11 @@ class MovieManagementController extends Controller
     public function destroy($id)
     {
         $movie = Movie::find($id);
+       
         if ($movie) {
+            
+            $movie1 = DB::delete("SELECT * FROM movie_genres WHERE movie_id = '$id'");
+            
             $movie->delete();
             return response()->json(array(
                 'success' => true,

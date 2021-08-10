@@ -23,7 +23,7 @@ class DirectorManagementController extends Controller
      */
     public function index()
     {
-        $directors = Director::paginate(1);
+        $directors = Director::paginate(5);
         return view('admin.directors.index', compact('directors'));
     }
     

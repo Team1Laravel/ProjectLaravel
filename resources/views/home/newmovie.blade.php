@@ -24,11 +24,16 @@ $movies_genres = MovieGenre::all();
         <div class="col-12">
             <div class="owl-carousel home__carousel">
                 @foreach ($movies as $movie)
+                    <?php
+                    
+                    $star = DB::select("SELECT AVG(point) as point FROM nguoi_dung_danh_gias where movie_id ='$movie->id'")[0];
+                    ?>
                     <div class="item">
                         <!-- card -->
                         <div class="card card--big">
                             <div class="card__cover">
-                                <img style="max-height: 340px" src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
+                                <img style="max-height: 340px"
+                                    src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                 <a href="{{ url('/detail') }}/{{ $movie->name }}" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>
@@ -40,12 +45,12 @@ $movies_genres = MovieGenre::all();
                                     
                                     $genres_by_movie = DB::select("select * from genres_movies where movie_id = $movie->id");
                                     foreach ($genres_by_movie as $key => $value) {
-                                        $url = '/home/genre/'.$value->name;
-                                        echo "<a href='".$url."'>".$value->name.'</a>';
+                                        $url = '/home/genre/' . $value->name;
+                                        echo "<a href='" . $url . "'>" . $value->name . '</a>';
                                     }
                                     ?>
                                 </span>
-                                <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $movie->star }}</span>
+                                <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
                             </div>
                         </div>
                         <!-- end card -->

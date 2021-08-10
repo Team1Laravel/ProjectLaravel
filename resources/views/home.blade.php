@@ -103,6 +103,10 @@ use App\Models\Genre;
                                     }
                                     ?>
                                     @if ($movie != null)
+                                        <?php
+                                        
+                                        $star = DB::select("SELECT AVG(point) as point FROM nguoi_dung_danh_gias where movie_id ='$movie->id'")[0];
+                                        ?>
                                         <div class="col-6 col-sm-12 col-lg-6">
                                             <div class="card card--list">
                                                 <div class="row">
@@ -134,7 +138,7 @@ use App\Models\Genre;
 
                                                             <div class="card__wrap">
                                                                 <span class="card__rate"><i
-                                                                        class="icon ion-ios-star"></i>8.4</span>
+                                                                        class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
 
                                                                 <ul class="card__list">
                                                                     <li>{{ $movie->quality }}</li>
@@ -230,11 +234,16 @@ use App\Models\Genre;
             $movies_hd = DB::select("select * from movies where quality = '1080p' and premiere = 1");
             ?>
             @if ($movies_hd != null)
+
                 <div class="row">
                     <div class="col-12">
                         <h2 class="section__title">FULL HD MOVIES</h2>
                     </div>
                     @for ($i = 0; $i < 6; $i++)
+                        <?php
+                        $movie = $movies_hd[$i];
+                        $star = DB::select("SELECT AVG(point) as point FROM nguoi_dung_danh_gias where movie_id ='$movie->id'")[0];
+                        ?>
                         <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                             <div class="card">
                                 <div class="card__cover">
@@ -257,19 +266,23 @@ use App\Models\Genre;
                                         }
                                         ?>
                                     </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <span class="card__rate"><i
+                                            class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
                                 </div>
                             </div>
                         </div>
                     @endfor
                     <!-- section btn -->
-                    
 
                     <!-- end section btn -->
                 </div>
                 <div class="row collapse" id="demo">
 
                     @for ($i = 6; $i < count($movies_hd); $i++)
+                        <?php
+                        $movie = $movies_hd[$i];
+                        $star = DB::select("SELECT AVG(point) as point FROM nguoi_dung_danh_gias where movie_id ='$movie->id'")[0];
+                        ?>
                         <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
                             <div class="card">
                                 <div class="card__cover">
@@ -292,7 +305,7 @@ use App\Models\Genre;
                                         }
                                         ?>
                                     </span>
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
                                 </div>
                             </div>
                         </div>
