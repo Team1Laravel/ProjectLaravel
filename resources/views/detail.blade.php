@@ -1,12 +1,17 @@
 @extends("layouts.common")
 @section('content')
     <!-- home -->
+    <script src="js/jquery-3.3.1.min.js"></script>
     <section class="home">
         <section class="content">
             <div class="content__head">
                 <div class="container">
                     <div class="row">
                         @if ($movie != null)
+                            <?php
+                            
+                            $star = DB::select("SELECT AVG(point) as point FROM nguoi_dung_danh_gias where movie_id ='$movie->id'")[0];
+                            ?>
                             <div class="col-12">
                                 <!-- content title -->
                                 <h2 class="content__title">MOVIE: {{ $movie->name }}</h2>
@@ -36,15 +41,15 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-sm-4">
-                                            <div class="card__cover col-12 col-sm-12" >
+                                            <div class="card__cover col-12 col-sm-12">
                                                 <img style="max-height: 450px"
                                                     src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                                 <a href="#" class="card__play">
                                                     <i class="icon ion-ios-play"></i>
                                                 </a>
                                             </div>
-                                            <div class="col-12 col-sm-12" >
-                                                
+                                            <div class="col-12 col-sm-12">
+
                                                 @include('star')
                                             </div>
                                         </div>
@@ -63,7 +68,7 @@
                                                 </span>
 
                                                 <div class="card__wrap">
-                                                    <span class="card__rate"><i class="icon ion-ios-star"></i>9.0</span>
+                                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
 
                                                     <ul class="card__list">
                                                         <li>{{ $movie->quality }}</li>
@@ -101,15 +106,16 @@
                             <div class="fb-follow" data-href="//facebook.com/Rì-viu-phim-103418141715660" data-width="400px"
                                 data-layout="button_count" data-size="small" data-show-faces="false"></div>
                             <div class="fb-send" data-href="//facebook.com/Rì-viu-phim-103418141715660/"></div>
-                            <div class="fb-comments" data-href="http://127.0.0.1:8000/admin/users" data-width="1090"
-                                data-numposts="10" data-order-by="social"></div>
+                            <div class="fb-comments" data-href="http://127.0.0.1:8000/detail/{{ $movie->name }}"
+                                data-width="1090" data-numposts="10" data-order-by="social"></div>
 
                         </div>
                     </div>
                     <!-- expected premiere -->
-                    
+
                 </div>
             </div>
         </section>
     </section>
+
 @endsection

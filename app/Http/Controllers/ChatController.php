@@ -43,22 +43,37 @@ class ChatController extends Controller
             return redirect('/login');
         }
         //dd($request);
-        $data = $request->all();
-        $data["author"] = Auth::user()->email;
-        if(Auth::user()->role_id == 1){
-            $data["sendto"] = $request->get('sendto');
+        if($request->has('starvalue'))
+        {
+            $user_id = Auth::id();
+            $point = $request->starvalue;
+            $movie_id = $request->movie_id;
+            DB::table('nguoi_dung_danh_gias')->insert([
+                'user_id'=>$user_id,
+                'movie_id'=>$movie_id,
+                'point'=>$point,
+            ]);
             
-        }else{
-            $data["sendto"] = DB::table('users')->where('role_id', '=' ,1)->get('email')[0]->email;
         }
-        $chats = Chat::create($data);
-        if(Auth::user()->role_id == 1){
-            DB::table('chats')->where('author','=',Auth::user()->email)->update(['isRead' => 1]);
-            DB::table('chats')->where('author','=',$request->get('sendto'))->update(['isRead' => 1]);
+        else{
+            $data = $request->all();
+            $data["author"] = Auth::user()->email;
+            if(Auth::user()->role_id == 1){
+                $data["sendto"] = $request->get('sendto');
+                
+            }else{
+                $data["sendto"] = DB::table('users')->where('role_id', '=' ,1)->get('email')[0]->email;
+            }
+            $chats = Chat::create($data);
+            if(Auth::user()->role_id == 1){
+                DB::table('chats')->where('author','=',Auth::user()->email)->update(['isRead' => 1]);
+                DB::table('chats')->where('author','=',$request->get('sendto'))->update(['isRead' => 1]);
+            }
+            event(
+                $e = new ChatEvent($chats)
+                );
         }
-        event(
-            $e = new ChatEvent($chats)
-            );
+      
         //DB::table('chats')->where('id','<',$chats->id)->delete(); 
         //DB::table('chats')->delete();
     }

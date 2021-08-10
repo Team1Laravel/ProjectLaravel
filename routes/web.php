@@ -73,7 +73,7 @@ Route::get('/home/genre/{name}', [App\Http\Controllers\GenreController::class, '
     
     Route::post('pagination/fetch', 'PaginationController@fetch')->name('pagination.fetch');
 #
-Route::get('/test', [App\Http\Controllers\MailController::class, 'sendEmail']);
+Route::get('/test', [App\Http\Controllers\MailController::class, 'test']);
 Route::fallback(function () {
     return view('404');
 });

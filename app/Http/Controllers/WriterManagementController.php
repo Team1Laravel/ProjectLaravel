@@ -20,7 +20,7 @@ class WriterManagementController extends Controller
      */
     public function index()
     {
-        $writers = Writer::paginate(1);
+        $writers = Writer::paginate(5);
         return view('admin.writers.index', compact('writers'));
     }
 
