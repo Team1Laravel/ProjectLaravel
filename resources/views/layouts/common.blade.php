@@ -248,6 +248,7 @@ if (Auth::check()) {
                 </div>
                 <!-- end footer copyright -->
             </div>
+<<<<<<< HEAD
         </div>
     </footer>
     <!-- end footer -->
@@ -272,3 +273,28 @@ if (Auth::check()) {
 </body>
 
 </html>
+=======
+         </div>
+      </footer>
+      <!-- end footer -->
+      <!-- JS -->
+      <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+      <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+      <script src="{{asset('js/owl.carousel.min.js')}}"></script>
+      <script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
+      <script src="{{asset('js/jquery.mCustomScrollbar.min.js')}}"></script>
+      <script src="{{asset('js/wNumb.js')}}"></script>
+      <script src="{{asset('js/nouislider.min.js')}}"></script>
+      <script src="{{asset('js/plyr.min.js')}}"></script>
+      <script src="{{asset('js/jquery.morelines.min.js')}}"></script>
+      <script src="{{asset('js/photoswipe.min.js')}}"></script>
+      <script src="{{asset('js/photoswipe-ui-default.min.js')}}"></script>
+      <script src="{{asset('js/main.js')}}"></script>
+      <script src="{{ asset('/admin/js/edit.js') }}"></script>
+      @auth
+      @include('buttonsubcribe')
+      @include('chatsupport')
+      @endauth
+   </body>
+</html>
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655

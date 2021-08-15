@@ -42,12 +42,17 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-4">
                                             <div class="card__cover col-12 col-sm-12">
+<<<<<<< HEAD
                                                 <img style="height: 450px"
+=======
+                                                <img style="max-height: 450px"
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
                                                     src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                                 <a href="#" class="card__play">
                                                     <i class="icon ion-ios-play"></i>
                                                 </a>
                                             </div>
+<<<<<<< HEAD
                                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                                                 <div class="row btn-group form-inline" role="group">
                                                     {{-- <button data-toggle="collapse" data-target="#watch-trailer"
@@ -58,6 +63,11 @@
                                                     <button 
                                                         class="btn-watch-movie section__btn ml-1">Watch Movie</button>
                                                 </div>
+=======
+                                            <div class="col-12 col-sm-12">
+
+                                                @include('star')
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
                                             </div>
 
                                         </div>
@@ -76,8 +86,12 @@
                                                 </span>
 
                                                 <div class="card__wrap">
+<<<<<<< HEAD
                                                     <span class="card__rate"><i
                                                             class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
+=======
+                                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
 
                                                     <ul class="card__list">
                                                         <li>{{ $movie->quality }}</li>
