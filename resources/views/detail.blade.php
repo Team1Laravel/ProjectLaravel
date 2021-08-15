@@ -42,16 +42,24 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-4">
                                             <div class="card__cover col-12 col-sm-12">
-                                                <img style="max-height: 450px"
+                                                <img style="height: 450px"
                                                     src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                                 <a href="#" class="card__play">
                                                     <i class="icon ion-ios-play"></i>
                                                 </a>
                                             </div>
-                                            <div class="col-12 col-sm-12">
-
-                                                @include('star')
+                                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                                <div class="row btn-group form-inline" role="group">
+                                                    {{-- <button data-toggle="collapse" data-target="#watch-trailer"
+                                                        class="btn-watch-trailer section__btn ml-1">Trailer</button> --}}
+                                                    {{-- <button data-toggle="collapse" data-target="#watch-movie"
+                                                        class="btn-watch-movie section__btn ml-1">Watch Movie</button> --}}
+                                                    <button class="btn-watch-trailer section__btn ml-1">Trailer</button>
+                                                    <button 
+                                                        class="btn-watch-movie section__btn ml-1">Watch Movie</button>
+                                                </div>
                                             </div>
+
                                         </div>
 
                                         <div class="col-12 col-sm-8">
@@ -68,7 +76,8 @@
                                                 </span>
 
                                                 <div class="card__wrap">
-                                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
+                                                    <span class="card__rate"><i
+                                                            class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
 
                                                     <ul class="card__list">
                                                         <li>{{ $movie->quality }}</li>
@@ -90,13 +99,60 @@
 
 
                         </div>
+                        {{-- <div class="row collapse" id="watch-trailer">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <iframe width="100%" height="400px" src="{{ $movie->video_link }}"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="row collapse" id="watch-movie">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <iframe width="100%" height="400px"
+                                    src="{{ $movie->movie_link }}"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div> --}}
+                        <div class="row collapse" id="watch-trailer">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <iframe width="100%" height="400px" src="{{ $movie->video_link }}"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="row collapse" id="watch-movie">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <iframe width="100%" height="400px" src="{{ $movie->movie_link }}"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="col-12 col-sm-12" style="height: 100px">
+                            @include('star')
+                        </div>
                     </div>
 
 
                     <!-- end card -->
                     <br />
-                    <h2 class="section__title">Comments</h2>
+
                     <div class="mt-5">
+                        <div class="col-md-12">
+                            <h2 class="section__title">Comments</h2>
+                        </div>
                         <div class="col-md-12 col-xs-12" style="background-color: whitesmoke;">
                             <div class="fb-share-button" data-href="//facebook.com/Rì-viu-phim-103418141715660/"
                                 data-layout="button_count" data-size="small" data-mobile-iframe="true"><a
@@ -117,4 +173,28 @@
             </div>
         </section>
     </section>
+    <script>
+        $(document).ready(function() {
+            $(".btn-watch-movie").click(function() {
+                if ($("#watch-trailer").hasClass("show")) {
+                    $("#watch-trailer").removeClass("show");
+                }
+                if($("#watch-movie").hasClass("show")){
+                    $("#watch-movie").removeClass("show");
+                } else {
+                    $("#watch-movie").addClass("show");
+                }
+            });
+            $(".btn-watch-trailer").click(function() {
+                if ($("#watch-movie").hasClass("show")) {
+                    $("#watch-movie").removeClass("show");
+                }
+                if($("#watch-trailer").hasClass("show")){
+                    $("#watch-trailer").removeClass("show");
+                } else {
+                    $("#watch-trailer").addClass("show");
+                }
+            });
+        });
+    </script>
 @endsection

@@ -62,7 +62,7 @@
                            </li>
                            <!-- end dropdown -->
                            <!-- dropdown -->
-                           <li class="header__nav-item">
+                           {{-- <li class="header__nav-item">
                               <a class="dropdown-toggle header__nav-link" href="#" role="button"
                                  id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true"
                                  aria-expanded="false">Catalog</a>
@@ -72,7 +72,7 @@
                                  <li><a href="details1.html">Details Movie</a></li>
                                  <li><a href="details2.html">Details TV Series</a></li>
                               </ul>
-                           </li>
+                           </li> --}}
                            <!-- end dropdown -->
                            <li class="header__nav-item">
                               <a href="{{route('pricing')}}" class="header__nav-link">Pricing Plan</a>
@@ -180,9 +180,9 @@
                <div class="col-6 col-sm-4 col-md-3">
                   <h6 class="footer__title">Resources</h6>
                   <ul class="footer__list">
-                     <li><a href="#">About Us</a></li>
-                     <li><a href="#">Pricing Plan</a></li>
-                     <li><a href="#">Help</a></li>
+                     <li><a href="{{route('about')}}">About Us</a></li>
+                     <li><a href="{{route('pricing')}}">Pricing Plan</a></li>
+                     <li><a href="{{route('help')}}">Help</a></li>
                   </ul>
                </div>
                <!-- end footer list -->

@@ -7,6 +7,7 @@ use App\Models\User;
 $movies = DB::select('SELECT year, count(1) count FROM movies group by year');
 $lengthMovies = Movie::all();
 $lengthUsers = User::all();
+$subusers = $listsubscribes['allSubs'];
 $listmovies = [];
 $year = Carbon::now()->format('Y') - 10;
 
@@ -58,7 +59,7 @@ for ($i = 0; $i <= 5; $i++) {
         <div class="row">
             <div class="col-lg-3 col-6 box-statistic">
                 <!-- small box -->
-                <div class="bg-statistic col-md-12" style="background-color: #F0F8FF;">
+                <div class="bg-statistic col-md-12" style="background-color: #FFF;">
                     <div class="col-md-8" style="float: left;">
                         <div class="col-md-12 d-flex justify-content-center p-statistic">MOVIE</div>
                         <div class="col-md-12 d-flex justify-content-center">
@@ -73,7 +74,7 @@ for ($i = 0; $i <= 5; $i++) {
             </div>
             <div class="col-lg-3 col-6 box-statistic">
                 <!-- small box -->
-                <div class="bg-statistic col-md-12" style="background-color: #F0F8FF;">
+                <div class="bg-statistic col-md-12" style="background-color: #FFF;">
                     <div class="col-md-8" style="float: left;">
                         <div class="col-md-12 d-flex justify-content-center p-statistic">USER</div>
                         <div class="col-md-12 d-flex justify-content-center">
@@ -86,22 +87,21 @@ for ($i = 0; $i <= 5; $i++) {
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-lg-3 col-6 box-statistic">
-                <!-- small box -->
-                <div class="bg-statistic col-md-12" style="background-color: #F0F8FF;">
+            <div class="col-lg-3 col-6 box-statistic">
+                <div class="bg-statistic col-md-12" style="background-color: #FFF">
                     <div class="col-md-8" style="float: left;">
-                        <div class="col-md-12 d-flex justify-content-center p-statistic">UNKNOW</div>
+                        <div class="col-md-12 d-flex justify-content-center p-statistic">SUBSCRIBE</div>
                         <div class="col-md-12 d-flex justify-content-center">
-                            <h3 class="h3-box-chart">150</h3>
+                            <h3 class="h3-box-chart">{{ $subusers }}</h3>
                         </div>
                     </div>
                     <div class="col-md-4" style="float: left">
-                        <i class="fa fa-film"
+                        <i class="far fa-bell"
                             style="font-size: 60px;margin-top: 15px; text-align: center; opacity: 0.5; color: red"></i>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-6 box-statistic">
+            {{-- <div class="col-lg-3 col-6 box-statistic">
                 <!-- small box -->
                 <div class="bg-statistic col-md-12" style="background-color: #F0F8FF;">
                     <div class="col-md-8" style="float: left;">
@@ -124,6 +124,9 @@ for ($i = 0; $i <= 5; $i++) {
             </div>
             <div class="col-lg-6">
                 <div id="curve_chart_user" style="width: 100%; height: 400px; margin-left: -20px"></div>
+            </div>
+            <div class="col-lg-6">
+                <div id="curve_chart_subscribe" style="width: 100%; height: 400px; margin-left: -30px"></div>
             </div>
         </div>
     </div>
@@ -166,16 +169,17 @@ for ($i = 0; $i <= 5; $i++) {
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
+        //chart movie
         var jlist = '<?php echo json_encode($listmovies); ?>';
         var list = JSON.parse(jlist);
         var obj0 = list[0];
         var data = google.visualization.arrayToDataTable([
-            ['Year', 'Movies'],
-            [String(obj0.year), obj0.count]
+            ['Year', 'Movies', { role: 'style' }],
+            [String(obj0.year), obj0.count, 'color: #FFA8A8']
         ]);
         $roww = [];
         for (let i = 1; i < list.length; i++) {
-            $roww.push([String(list[i].year), list[i].count]);
+            $roww.push([String(list[i].year), list[i].count, 'color: #FFA8A8']);
         }
         data.addRows($roww);
         var options = {
@@ -186,23 +190,28 @@ for ($i = 0; $i <= 5; $i++) {
             },
             vAxis: {
                 minValue: 0,
-                ticks: [0, 2, 4, 6, 8, 10]
+                ticks: [0, 2, 4, 6, 8, 10],
+                title: 'Total'
             },
-            width: 700
+            width: 700,
+            hAxis: {
+                title: 'Year'
+            },
+            colors: ['#FFA8A8']
         };
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart_movie'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart_movie'));
         chart.draw(data, options);
-
+        //chart user
         var ulist = '<?php echo json_encode($listusers); ?>';
         var listU = JSON.parse(ulist);
         var obj0 = listU[0];
         var dataU = google.visualization.arrayToDataTable([
-            ['Month', 'Users'],
-            [String(obj0.month), obj0.count]
+            ['Month', 'Users', { role: 'style' }],
+            [String(obj0.month), obj0.count, 'color: #009900']
         ]);
         $roww = [];
         for (let i = 1; i < listU.length; i++) {
-            $roww.push([String(listU[i].month), listU[i].count]);
+            $roww.push([String(listU[i].month), listU[i].count, 'color: #009900']);
         }
         dataU.addRows($roww);
         var options = {
@@ -213,11 +222,47 @@ for ($i = 0; $i <= 5; $i++) {
             },
             vAxis: {
                 minValue: 0,
-                ticks: [0, 2, 4, 6, 8, 10]
+                ticks: [0, 2, 4, 6, 8, 10],
+                title: 'Total',
             },
-            width: 600
+            hAxis: {
+                title: 'Month',
+                
+            },
+            width: 600,
+            colors: ['#009900']
         };
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart_user'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart_user'));
         chart.draw(dataU, options);
+        //chart subscribe
+        var slist = '<?php echo json_encode($listsubscribes); ?>';
+        var listS = JSON.parse(slist);
+        var allUsers = listS["allUsers"];
+        var allsubs = listS["allSubs"];
+        var dataS = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['Subscribed', allsubs],
+            ['Not Subscribed', allUsers - allsubs],
+        ]);
+        $roww = [];
+        for (let i = 1; i < listS.length; i++) {
+            $roww.push([String(listS[i].month), listS[i].count]);
+        }
+        dataS.addRows($roww);
+        var options = {
+            title: 'Subscriber Rate',
+            // curveType: 'function',
+            // legend: {
+            //     position: 'bottom'
+            // },
+            // vAxis: {
+            //     minValue: 0,
+            //     ticks: [0, 2, 4, 6, 8, 10]
+            // },
+            width: 600,
+            colors: ['#009900', '#DD0000'],
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('curve_chart_subscribe'));
+        chart.draw(dataS, options);
     }
 </script>

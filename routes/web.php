@@ -61,7 +61,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('writer', \App\Http\Controllers\WriterManagementController::class);
     Route::resource('genre', \App\Http\Controllers\GenreManagementController::class);
     Route::resource('actor', \App\Http\Controllers\CastManagementController::class);
-    Route::get('chart', function(){
+    Route::get('/chart', function(){
         return view('admin.chart');
     });
 });
