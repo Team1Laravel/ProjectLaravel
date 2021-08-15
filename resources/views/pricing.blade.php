@@ -43,13 +43,13 @@
 				<!-- price -->
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="price">
-						<div class="price__item price__item--first"><span>Basic</span> <span>Free</span></div>
+						<div class="price__item price__item--first"><span>Basic</span> <span>$9.99</span></div>
 						<div class="price__item"><span>7 days</span></div>
 						<div class="price__item"><span>720p Resolution</span></div>
 						<div class="price__item"><span>Limited Availability</span></div>
 						<div class="price__item"><span>Desktop Only</span></div>
 						<div class="price__item"><span>Limited Support</span></div>
-						<a href="#" class="price__btn">Choose Plan</a>
+						<a class="price__btn" href="{{url('/pricing/1')}}" >Choose Plan</a>
 					</div>
 				</div>
 				<!-- end price -->
@@ -63,7 +63,7 @@
 						<div class="price__item"><span>Lifetime Availability</span></div>
 						<div class="price__item"><span>TV & Desktop</span></div>
 						<div class="price__item"><span>24/7 Support</span></div>
-						<a href="#" class="price__btn">Choose Plan</a>
+						<a class="price__btn" href="{{url('/pricing/2')}}" >Choose Plan</a>
 					</div>
 				</div>
 				<!-- end price -->
@@ -77,15 +77,16 @@
 						<div class="price__item"><span>Lifetime Availability</span></div>
 						<div class="price__item"><span>Any Device</span></div>
 						<div class="price__item"><span>24/7 Support</span></div>
-						<a href="#" class="price__btn">Choose Plan</a>
+						<a class="price__btn" href="{{url('/pricing/3')}}" >Choose Plan</a>
 					</div>
 				</div>
+				
 				<!-- end price -->
 			</div>
 		</div>
 	</div>
 	<!-- end pricing -->
-
+	
 	<!-- features -->
 	<section class="section section--dark">
 		<div class="container">
@@ -227,6 +228,7 @@
 		</div>
 	</section>
 	<!-- end partners -->
+
 @endsection
 
 

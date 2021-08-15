@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Models\Chat;
 use App\Events\ChatEvent;
+use App\Models\Payment;
+use App\Events\PaymentEvent;
+
 class ChatController extends Controller
 {
     /**
@@ -16,7 +19,7 @@ class ChatController extends Controller
      */
     public function index()
     {
-        $chats = DB::table('chats')->where('author','=',Auth::user()->email)->orWhere('sendto','=',Auth::user()->email);
+        $chats = DB::table('chats')->where('author', '=', Auth::user()->email)->orWhere('sendto', '=', Auth::user()->email);
         return view('Chat', compact('chats'));
     }
 
@@ -39,41 +42,57 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect('/login');
         }
+        if ($request->has('cardnumber')) {
+            $data = $request->all();
+            $payments = Payment::create($data);
+            event(
+                $e = new PaymentEvent($payments)
+            );
+            return;
+        }
         //dd($request);
-        if($request->has('starvalue'))
-        {
+        if ($request->has('starvalue')) {
             $user_id = Auth::id();
             $point = $request->starvalue;
             $movie_id = $request->movie_id;
-            DB::table('nguoi_dung_danh_gias')->insert([
-                'user_id'=>$user_id,
-                'movie_id'=>$movie_id,
-                'point'=>$point,
-            ]);
-            
-        }
-        else{
+            $check =  DB::select("select * from nguoi_dung_danh_gias where user_id = '$user_id' and movie_id = '$movie_id'");
+            if (count($check) > 0) {
+                DB::table('nguoi_dung_danh_gias')->where('user_id', '=', $user_id)->where('movie_id', '=', $movie_id)->update([
+                    'point' => $point,
+                ]);
+            } else {
+                DB::table('nguoi_dung_danh_gias')->insert([
+                    'user_id' => $user_id,
+                    'movie_id' => $movie_id,
+                    'point' => $point,
+                ]);
+            }
+        } else if ($request->has('subcribevalue')) {
+
+            $user_id = Auth::id();
+            $subcribe = $request->subcribevalue;
+            DB::update("update users set isSubcribe = '$subcribe' where id = '$user_id'");
+        } else {
             $data = $request->all();
             $data["author"] = Auth::user()->email;
-            if(Auth::user()->role_id == 1){
+            if (Auth::user()->role_id == 1) {
                 $data["sendto"] = $request->get('sendto');
-                
-            }else{
-                $data["sendto"] = DB::table('users')->where('role_id', '=' ,1)->get('email')[0]->email;
+            } else {
+                $data["sendto"] = DB::table('users')->where('role_id', '=', 1)->get('email')[0]->email;
             }
             $chats = Chat::create($data);
-            if(Auth::user()->role_id == 1){
-                DB::table('chats')->where('author','=',Auth::user()->email)->update(['isRead' => 1]);
-                DB::table('chats')->where('author','=',$request->get('sendto'))->update(['isRead' => 1]);
+            if (Auth::user()->role_id == 1) {
+                DB::table('chats')->where('author', '=', Auth::user()->email)->update(['isRead' => 1]);
+                DB::table('chats')->where('author', '=', $request->get('sendto'))->update(['isRead' => 1]);
             }
             event(
                 $e = new ChatEvent($chats)
-                );
+            );
         }
-      
+
         //DB::table('chats')->where('id','<',$chats->id)->delete(); 
         //DB::table('chats')->delete();
     }
@@ -86,22 +105,20 @@ class ChatController extends Controller
      */
     public function show(Request $request)
     {
-        
-        
     }
 
-    
+
     public function get(Request $request)
     {
         $data = $request->all();
         $author = $request->author;
-        if(!empty($request->isRead)){
-            DB::table('chats')->where('author','=',$author)->update(['isRead' => 1]);
-        }else{
-            $messages = DB::table('chats')->where('author','=',$author)->orWhere('sendto','=',$author)->get();
-            DB::table('chats')->where('author','=',$author)->update(['isRead' => 1]);
+        if (!empty($request->isRead)) {
+            DB::table('chats')->where('author', '=', $author)->update(['isRead' => 1]);
+        } else {
+            $messages = DB::table('chats')->where('author', '=', $author)->orWhere('sendto', '=', $author)->get();
+            DB::table('chats')->where('author', '=', $author)->update(['isRead' => 1]);
             return $messages;
-        }        
+        }
         //
     }
     /**

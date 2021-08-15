@@ -16,6 +16,19 @@ redis.on('pmessage', function(partner, chanel, message){
 	console.log(chanel)
 	console.log(message)
 	message = JSON.parse(message)
-	io.emit(chanel + ":" + message.event, message.data.chats)
+	if(chanel == 'darkmovies_database_payment')
+	{
+		console.log('zooooooooooo')
+		io.emit(chanel + ":" + message.event, message.data.payment)
+	}
+	else if(chanel == 'darkmovies_database_resBill')
+	{
+		io.emit(chanel + ":" + message.event, message.data)
+						
+	}
+	else{
+			io.emit(chanel + ":" + message.event, message.data.chats)
+
+	}
 	console.log('sent')
 })

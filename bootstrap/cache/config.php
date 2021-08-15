@@ -478,8 +478,13 @@
         'host' => 'smtp.gmail.com',
         'port' => '465',
         'encryption' => 'ssl',
+<<<<<<< HEAD
+        'username' => '',
+        'password' => '',
+=======
         'username' => 'xuanphuchb95@gmail.com',
         'password' => 'tU1DeN10',
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
         'timeout' => NULL,
         'auth_mode' => NULL,
       ),

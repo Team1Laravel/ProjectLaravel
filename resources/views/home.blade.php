@@ -115,7 +115,8 @@ use App\Models\Genre;
                                                             <img style="max-height: 210px"
                                                                 src="{{ asset('img/catalogs/') }}/{{ $movie->image }}"
                                                                 alt="">
-                                                            <a href="{{ $movie->video_link }}" class="card__play">
+                                                            <a href="{{ url('/detail') }}/{{ $movie->name }}"
+                                                                class="card__play">
                                                                 <i class="icon ion-ios-play"></i>
                                                             </a>
                                                         </div>
@@ -139,7 +140,10 @@ use App\Models\Genre;
                                                             <div class="card__wrap">
                                                                 <span class="card__rate"><i
                                                                         class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
                                                                 <ul class="card__list">
                                                                     <li>{{ $movie->quality }}</li>
                                                                     <li>{{ $movie->age_limit }}+</li>
@@ -147,7 +151,13 @@ use App\Models\Genre;
                                                             </div>
 
                                                             <div class="card__description">
-                                                                <p>{{ $movie->desc }}</p>
+                                                                <p>
+                                                                    @php
+                                                                    $arrStr = explode(' ', $movie->desc, 30);
+                                                                        $desc = implode(' ', array_slice($arrStr, 0, 29));
+                                                                        echo $desc.'...';
+                                                                    @endphp
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -179,7 +189,8 @@ use App\Models\Genre;
                                                         <img width="190" height="237"
                                                             src="{{ asset('img/catalogs/') }}/{{ $movie->image }}"
                                                             alt="">
-                                                        <a href="{{ $movie->video_link }}" class="card__play">
+                                                        <a href="{{ url('/detail') }}/{{ $movie->name }}"
+                                                            class="card__play">
                                                             <i class="icon ion-ios-play"></i>
                                                         </a>
                                                     </div>
@@ -211,7 +222,13 @@ use App\Models\Genre;
                                                         </div>
 
                                                         <div class="card__description">
-                                                            <p>{{ $movie->desc }}</p>
+                                                            <p>
+                                                                @php
+                                                                $arrStr = explode(' ', $movie->desc, 30);
+                                                                    $desc = implode(' ', array_slice($arrStr, 0, 29));
+                                                                    echo $desc.'...';
+                                                                @endphp
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -305,7 +322,12 @@ use App\Models\Genre;
                                         }
                                         ?>
                                     </span>
+<<<<<<< HEAD
+                                    <span class="card__rate"><i
+                                            class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
+=======
                                     <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
+>>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
                                 </div>
                             </div>
                         </div>
@@ -313,7 +335,7 @@ use App\Models\Genre;
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <button data-toggle="collapse" data-target="#demo" class="section__btn">Show more</button>
+                        <button data-toggle="collapse" data-target="#demo" class="section__btn">Show All</button>
                     </div>
                 </div>
             @endif
@@ -345,7 +367,7 @@ use App\Models\Genre;
 
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="{{ url('/detail') }}" class="partner">
+                    <a href="#" class="partner">
                         <img src="img/partners/themeforest-light-background.png" alt="" class="partner__img">
                     </a>
                 </div>
@@ -353,7 +375,7 @@ use App\Models\Genre;
 
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="{{ url('/detail') }}" class="partner">
+                    <a href="#" class="partner">
                         <img src="img/partners/audiojungle-light-background.png" alt="" class="partner__img">
                     </a>
                 </div>
@@ -361,7 +383,7 @@ use App\Models\Genre;
 
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="{{ url('/detail') }}" class="partner">
+                    <a href="#" class="partner">
                         <img src="img/partners/codecanyon-light-background.png" alt="" class="partner__img">
                     </a>
                 </div>
@@ -369,7 +391,7 @@ use App\Models\Genre;
 
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="{{ url('/detail') }}" class="partner">
+                    <a href="#" class="partner">
                         <img src="img/partners/photodune-light-background.png" alt="" class="partner__img">
                     </a>
                 </div>
@@ -377,7 +399,7 @@ use App\Models\Genre;
 
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="{{ url('/detail') }}" class="partner">
+                    <a href="#" class="partner">
                         <img src="img/partners/activeden-light-background.png" alt="" class="partner__img">
                     </a>
                 </div>
@@ -385,7 +407,7 @@ use App\Models\Genre;
 
                 <!-- partner -->
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                    <a href="{{ url('/detail') }}" class="partner">
+                    <a href="#" class="partner">
                         <img src="img/partners/3docean-light-background.png" alt="" class="partner__img">
                     </a>
                 </div>
