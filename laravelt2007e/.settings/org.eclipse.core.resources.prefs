@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//app/Http/Controllers/BookController.php=UTF-8
+encoding//app/Http/Controllers/CategoryController.php=UTF-8
+encoding//resources/views/book/create.blade.php=UTF-8
+encoding//resources/views/book/edit.blade.php=UTF-8
+encoding//resources/views/book/index.blade.php=UTF-8
+encoding//resources/views/category/create.blade.php=UTF-8
+encoding//resources/views/category/edit.blade.php=UTF-8
+encoding//resources/views/category/index.blade.php=UTF-8
+encoding//routes/web.php=UTF-8
