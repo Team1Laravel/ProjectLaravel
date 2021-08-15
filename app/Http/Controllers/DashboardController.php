@@ -52,7 +52,14 @@ class DashboardController extends Controller
 
         $allUsers = User::all()->where("role_id", "=", 2);
         $subscribeUsers = $allUsers->where("isSubcribe", "=", "1");
-        $listsubscribes = ["allUsers"=>count($allUsers), "allSubs"=>count($subscribeUsers)];
-        return view('admin.dashboard', compact('listmovies', 'listusers', 'listsubscribes'));
+        $listsubscribes = ["allUsers" => count($allUsers), "allSubs" => count($subscribeUsers)];
+        $revenue = DB::select('SELECT sum(b.price) as sum, month(a.created_at) as month FROM payment a join package b on a.package_id = b.id where a.status = 2 group by month(a.created_at) order by month desc limit 6');
+        $total = 0;
+        foreach ($revenue as $item) {
+            $total += $item->sum;
+            $item->sum = round($item->sum);
+        }
+        $total = round($total);
+        return view('admin.dashboard', compact('listmovies', 'listusers', 'listsubscribes', 'revenue', 'total'));
     }
 }

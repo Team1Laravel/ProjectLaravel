@@ -24,6 +24,7 @@
     "dependencies": {
         "cross-env": "^7.0.3",
         "ioredis": "^4.27.6",
+        "pusher-js": "^4.4.0",
         "socket.io": "^4.1.3"
     }
 }

@@ -101,21 +101,21 @@ for ($i = 0; $i <= 5; $i++) {
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-lg-3 col-6 box-statistic">
+            <div class="col-lg-3 col-6 box-statistic">
                 <!-- small box -->
-                <div class="bg-statistic col-md-12" style="background-color: #F0F8FF;">
+                <div class="bg-statistic col-md-12" style="background-color: #FFF;">
                     <div class="col-md-8" style="float: left;">
-                        <div class="col-md-12 d-flex justify-content-center p-statistic">UNKNOW</div>
+                        <div class="col-md-12 d-flex justify-content-center p-statistic">REVENUE</div>
                         <div class="col-md-12 d-flex justify-content-center">
-                            <h3 class="h3-box-chart">150</h3>
+                            <h3 class="h3-box-chart">{{ $total }}$</h3>
                         </div>
                     </div>
                     <div class="col-md-4" style="float: left">
-                        <i class="fa fa-film"
+                        <i class="fa fa-dollar-sign"
                             style="font-size: 60px;margin-top: 15px; text-align: center; opacity: 0.5; color: red"></i>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12" style="height: 50px"> </div>
@@ -127,6 +127,9 @@ for ($i = 0; $i <= 5; $i++) {
             </div>
             <div class="col-lg-6">
                 <div id="curve_chart_subscribe" style="width: 100%; height: 400px; margin-left: -30px"></div>
+            </div>
+            <div class="col-lg-6">
+                <div id="curve_chart_revenue" style="width: 100%; height: 400px; margin-left: -30px"></div>
             </div>
         </div>
     </div>
@@ -251,18 +254,44 @@ for ($i = 0; $i <= 5; $i++) {
         dataS.addRows($roww);
         var options = {
             title: 'Subscriber Rate',
-            // curveType: 'function',
-            // legend: {
-            //     position: 'bottom'
-            // },
-            // vAxis: {
-            //     minValue: 0,
-            //     ticks: [0, 2, 4, 6, 8, 10]
-            // },
             width: 600,
             colors: ['#009900', '#DD0000'],
         };
         var chart = new google.visualization.PieChart(document.getElementById('curve_chart_subscribe'));
         chart.draw(dataS, options);
+        //chart revenue
+        var rlist = '<?php echo json_encode($revenue); ?>';
+        var listR = JSON.parse(rlist);
+        console.log(listR);
+        var obj0 = listR[0];
+        var dataR = google.visualization.arrayToDataTable([
+            ['Month', 'Money', { role: 'style' }],
+            [String(obj0.month), obj0.sum, 'color: #009900']
+        ]);
+        $roww = [];
+        for (let i = 1; i < listR.length; i++) {
+            $roww.push([String(listR[i].month), listR[i].sum, 'color: #009900']);
+        }
+        dataR.addRows($roww);
+        var options = {
+            title: 'Total Money for the last 6 months',
+            curveType: 'function',
+            legend: {
+                position: 'bottom'
+            },
+            vAxis: {
+                minValue: 0,
+                ticks: [0, 20, 40, 60, 80, 100],
+                title: 'Total',
+            },
+            hAxis: {
+                title: 'Month',
+                
+            },
+            width: 600,
+            colors: ['#009900']
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart_revenue'));
+        chart.draw(dataR, options);
     }
 </script>
