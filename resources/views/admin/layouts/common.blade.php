@@ -217,7 +217,6 @@
                             </div>
                         </li> --}}
 
-                        <li class="nav-item">
                             {{-- <a href="pages/forms/basic_elements.html" class="nav-link">
                         <li class="nav-item" style="float: left">
                             <a class="nav-link" onclick="event.preventDefault(); loadChart()">
@@ -316,27 +315,6 @@
                        </li>
                     </ul>
                 </div>
-                    <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-                        <span class="menu-title">Documentation</span></a> --}}
-                        <a class="nav-link" href="" onclick="event.preventDefault(); loadWritters()">
-                           <i class="mdi mdi-chart-areaspline menu-icon"></i>
-                           <span class="menu-title">Writters</span>
-                           <i class="menu-arrow"></i>
-                       </a>
-                        </li>
-                        <li class="nav-item">
-                           {{-- <a href="docs/documentation.html" class="nav-link">
-                       <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-                       <span class="menu-title">Documentation</span></a> --}}
-                       <a class="nav-link" href="" onclick="event.preventDefault(); loadGenres()">
-                          <i class="mdi mdi-chart-areaspline menu-icon"></i>
-                          <span class="menu-title">Genres</span>
-                          <i class="menu-arrow"></i>
-                      </a>
-                       </li>
-                    </ul>
-                </div>
-                     </li>
                      <li class="nav-item">
                         {{-- <a href="docs/documentation.html" class="nav-link">
                         <i class="mdi mdi-file-document-box-outline menu-icon"></i>

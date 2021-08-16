@@ -140,10 +140,6 @@ use App\Models\Genre;
                                                             <div class="card__wrap">
                                                                 <span class="card__rate"><i
                                                                         class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
-<<<<<<< HEAD
-=======
-
->>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
                                                                 <ul class="card__list">
                                                                     <li>{{ $movie->quality }}</li>
                                                                     <li>{{ $movie->age_limit }}+</li>
@@ -322,17 +318,8 @@ use App\Models\Genre;
                                         }
                                         ?>
                                     </span>
-<<<<<<< HEAD
                                     <span class="card__rate"><i
                                             class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
-=======
-<<<<<<< HEAD
-                                    <span class="card__rate"><i
-                                            class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
-=======
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{{ $star->point ? $star->point : 0 }}</span>
->>>>>>> 9c0270ad87d2ce486106c062455e59cb711fe655
->>>>>>> 27f4ad2d5483a0af193927e71aa05eb87e331e17
                                 </div>
                             </div>
                         </div>

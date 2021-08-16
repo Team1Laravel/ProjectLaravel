@@ -148,6 +148,7 @@ $(document).ready(function() {
                 password: $("input[name='password']").val(),
             },
             success: function(res) {
+                console.log(res.message);
                 if (res.success) {
                     $("#loginstatus").html(res.message);
                     $(".flash__icon").html('<i class="icon fa fa-check-circle-o"></i>');

@@ -42,8 +42,7 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-4">
                                             <div class="card__cover col-12 col-sm-12">
-                                                <img style="height: 450px">
-                                                <img style="height: 450px">
+                                                <img style="height: 450px"
                                                     src="{{ asset('img/catalogs/') }}/{{ $movie->image }}" alt="">
                                                 <a href="#" class="card__play">
                                                     <i class="icon ion-ios-play"></i>
