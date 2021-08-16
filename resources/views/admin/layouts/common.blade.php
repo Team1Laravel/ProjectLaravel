@@ -186,6 +186,39 @@
             <nav class="bottom-navbar">
                 <div class="container">
                     <ul class="nav page-navigation">
+
+                <div class="container">
+                    <ul class="nav page-navigation">
+                        <li class="nav-item" style="float: left">
+                            <a class="nav-link" onclick="event.preventDefault(); loadChart()">
+                                <i class="mdi mdi-file-document-box menu-icon"></i>
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item" style="float: left">
+                            <a href="#" class="nav-link">
+                                <i class="mdi mdi-grid menu-icon"></i>
+                                <span class="menu-title">Tables</span>
+                                <i class="menu-arrow"></i>
+                            </a>
+                            <div class="submenu">
+                                <ul>
+                                    <li class="nav-item"><a class="nav-link" href=""
+                                            onclick="event.preventDefault(); loadUser()">Users</a></li>
+                                    <li class="nav-item"><a class="nav-link" href=""
+                                            onclick="event.preventDefault(); loadMovies()">Movies</a></li>
+                                    <li class="nav-item"><a class="nav-link" href=""
+                                            onclick="event.preventDefault(); loadDirectors()">Directors</a></li>
+                                    <li class="nav-item"><a class="nav-link" href=""
+                                            onclick="event.preventDefault(); loadWritters()">Writters</a></li>
+                                    <li class="nav-item"><a class="nav-link" href=""
+                                            onclick="event.preventDefault(); loadGenres()">Genres</a></li>
+                                </ul>
+                            </div>
+                        </li> --}}
+
+                        <li class="nav-item">
+                            {{-- <a href="pages/forms/basic_elements.html" class="nav-link">
                         <li class="nav-item" style="float: left">
                             <a class="nav-link" onclick="event.preventDefault(); loadChart()">
                                 <i class="mdi mdi-file-document-box menu-icon"></i>
@@ -220,6 +253,7 @@
                         <span class="menu-title">Form Elements</span>
                         <i class="menu-arrow"></i>
                         </a> --}}
+
                             <a class="nav-link" href="" onclick="event.preventDefault(); loadUser()">
                                 <i class="mdi mdi-chart-areaspline menu-icon"></i>
                                 <span class="menu-title">Users</span>
@@ -232,6 +266,7 @@
                         <span class="menu-title">Icons</span>
                         <i class="menu-arrow"></i>
                         </a> --}}
+
                         <a class="nav-link" href="" onclick="event.preventDefault(); loadMovies()">
                            <i class="mdi mdi-chart-areaspline menu-icon"></i>
                            <span class="menu-title">Movies</span>
@@ -281,6 +316,34 @@
                        </li>
                     </ul>
                 </div>
+                    <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                        <span class="menu-title">Documentation</span></a> --}}
+                        <a class="nav-link" href="" onclick="event.preventDefault(); loadWritters()">
+                           <i class="mdi mdi-chart-areaspline menu-icon"></i>
+                           <span class="menu-title">Writters</span>
+                           <i class="menu-arrow"></i>
+                       </a>
+                        </li>
+                        <li class="nav-item">
+                           {{-- <a href="docs/documentation.html" class="nav-link">
+                       <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                       <span class="menu-title">Documentation</span></a> --}}
+                       <a class="nav-link" href="" onclick="event.preventDefault(); loadGenres()">
+                          <i class="mdi mdi-chart-areaspline menu-icon"></i>
+                          <span class="menu-title">Genres</span>
+                          <i class="menu-arrow"></i>
+                      </a>
+                       </li>
+                    </ul>
+                </div>
+                     </li>
+                     <li class="nav-item">
+                        {{-- <a href="docs/documentation.html" class="nav-link">
+                        <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                        <span class="menu-title">Documentation</span></a> --}}
+                     </li>
+                  </ul>
+               </div>
             </nav>
         </div>
 
